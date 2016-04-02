@@ -7,9 +7,7 @@ function autoload( $class )
         $folder = strtolower( $folder );
         $module = strtolower( $module );
         $file = sprintf(
-            '%s%s/%s/%s.php',
-            PATH_SITE,
-            $module,
+            '%s/%s.php',
             $folder,
             strtolower( $folder ) . '-' . $module
         );
@@ -94,17 +92,20 @@ spl_autoload_register( 'autoload' );
      *
      *Remove tags html and check has fields requires
      *
+     * @param $data array fields that will be validate
+     * @param $requires array fields will be check if fill
      * @return array with values or boolean false
      */
     function sanitize_fields( $data , $requires )
     {
         $error = false;
         foreach( $data as $key => $v ) {
-            $values[ $key ] = htmlentities( trim( $v ) );
+            $values[ $key ] = htmlentities( trim( $v ), null, 'ISO-8859-1' );
             if ( !$values[ $key ] && ( in_array( $key, $requires ) ) ) {
                 $error = true;
             }
         }
+
         return array(
             'error'     => $error,
             'values'    => $values
@@ -144,7 +145,7 @@ spl_autoload_register( 'autoload' );
     }
 
     /**
-     * @param $hash to decode
+     * @param $hash string to decode
      * @return int of decode
      */
     function decode_id( $hash )
@@ -153,4 +154,18 @@ spl_autoload_register( 'autoload' );
         $s = strpos( $hash, 'i' )+1;
         $e = strpos( $hash, 'f' );
         return (int) substr( $hash, $s, $e-$s );
+    }
+
+    function is_email( $email, $record='MX'  )
+    {
+        $validated = false;
+        if ( filter_var( $email, FILTER_VALIDATE_EMAIL ) ) {
+
+            $d = array( 'gmail', 'uol', 'aol', 'ig', 'terra', 'hotmail', 'msn', 'outlook', 'live' );
+            list( $user, $domain ) = explode( '@', $email );
+            if ( !in_array( $domain, $d ) )
+                $validated = checkdnsrr( $domain, $record );
+
+        }
+        return $validated;
     }

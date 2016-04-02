@@ -1,5 +1,5 @@
 <?php
-class Model_Login extends Connect
+class Model extends Connect
 {
     public function login( $data )
     {
