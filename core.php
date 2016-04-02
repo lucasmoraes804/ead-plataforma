@@ -1,14 +1,21 @@
 <?php
 function autoload( $class )
 {
-    $file = sprintf(
-        '%s/%s.php',
-        PATH_SITE,
-        $class
-    );
-
-    if ( file_exists( $file ) )
-        include_once $file;
+    $pos = strpos( $class, '_' );
+    if ( $pos !== false ) {
+        list( $folder, $module ) = explode( '_', $class );
+        $folder = strtolower( $folder );
+        $module = strtolower( $module );
+        $file = sprintf(
+            '%s%s/%s/%s.php',
+            PATH_SITE,
+            $module,
+            $folder,
+            strtolower( $folder ) . '-' . $module
+        );
+        if ( file_exists( $file ) )
+            include_once $file;
+    }
 
 }
 
@@ -77,8 +84,73 @@ spl_autoload_register( 'autoload' );
     function get_module()
     {
         $request    = explode( '/' ,  $_SERVER[ 'REQUEST_URI' ]  );
-        $key        = ( in_localhost() ) ? 3 : 2;
+        $key        = ( in_localhost() ) ? 2 : 1;
         $module     = isset( $request[ $key ] ) ? $request[ $key ] : '';
 
         return $module;
+    }
+
+    /**
+     *
+     *Remove tags html and check has fields requires
+     *
+     * @return array with values or boolean false
+     */
+    function sanitize_fields( $data , $requires )
+    {
+        $error = false;
+        foreach( $data as $key => $v ) {
+            $values[ $key ] = htmlentities( trim( $v ) );
+            if ( !$values[ $key ] && ( in_array( $key, $requires ) ) ) {
+                $error = true;
+            }
+        }
+        return array(
+            'error'     => $error,
+            'values'    => $values
+        );
+    }
+
+    /**
+     * @param $id to create hash
+     * @return string hash
+     */
+    function encode_id( $id )
+    {
+        $chars = 'abcdeghjklmnopqrstuvxywz0123456789'; // without i and f
+        $size_max = 32;
+
+        $size = $size_max - strlen( $id ) - 2;
+        $code = array();
+        $len = strlen( $chars );
+
+        do
+        {
+            $char = $chars[ mt_rand( 0, $len-1 ) ];
+            if ( !in_array( $char, $code ) )
+                array_push( $code, $char );
+
+        } while ( count( $code ) < $size );
+        $custom = implode( '', $code );
+
+        $len = strlen( $custom );
+        $pos = mt_rand( 0, $len-1 );
+        $h = array(
+            substr( $custom, 0, $pos ),
+            'i' . $id . 'f',
+            substr( $custom, $pos, $len )
+        );
+        return base64_encode( implode( '', $h ) );
+    }
+
+    /**
+     * @param $hash to decode
+     * @return int of decode
+     */
+    function decode_id( $hash )
+    {
+        $hash = base64_decode( $hash );
+        $s = strpos( $hash, 'i' )+1;
+        $e = strpos( $hash, 'f' );
+        return (int) substr( $hash, $s, $e-$s );
     }
