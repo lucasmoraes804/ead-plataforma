@@ -169,3 +169,35 @@ spl_autoload_register( 'autoload' );
         }
         return $validated;
     }
+
+    /**
+     * @param $data_br string date or date time with french format
+     * @return boolean to true valid or false not valid
+     */
+    function check_french_date( $data )
+    {
+        $d = substr( $data, 0, 2 );
+        $m = substr( $data, 3, 2 );
+        $y = substr( $data, 6, 4 );
+        return checkdate( $m, $d, $y );
+    }
+
+    /**
+     * @param $data_br
+     * @return string
+     */
+    function date_french2english( $data_french )
+    {
+        $day    = substr( $data_french, 0, 2 );
+        $month  = substr( $data_french, 3, 2 );
+        $year    = substr( $data_french, 6, 4 );
+        $date = $year . '-'. $month . '-' . $day;
+        $pos = strpos( $data_french, ' ' );
+        if ( $pos !== false ){
+            $datetime   = explode( ' ', $data_french );
+            $hour       = end( $datetime );
+            $date      .= ' ' . $hour;
+        }
+
+        return $date;
+    }
