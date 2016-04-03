@@ -9,7 +9,7 @@ class Controller
 
     public function __construct()
     {
-        if ( get_module() && isset( $_GET[ 'action' ] ) && $_GET[ 'action' ] ) {
+        if ( isset( $_GET[ 'action' ] ) && $_GET[ 'action' ] ) {
 
             $method = 'action_' . $_GET[ 'action' ];
             if ( method_exists( $this , $method ) )
@@ -37,12 +37,23 @@ class Controller
     public function default_action()
     {
         if ( $this->is_user_logged_in() ){
-            header( 'Location:' . URL_SITE . '/client' );
+            header( 'Location:' . URL_SITE . 'client' );
             exit;
         }
         $this->set_template( 'login' );
         if ( isset( $_POST['login_user'] ) )
             $this->login();
+    }
+
+    public function action_logout()
+    {
+        unset( $_SESSION[ 'hash' ] );
+        unset( $_SESSION[ 'username' ] );
+        unset( $_COOKIE['hash'] );
+        setcookie( 'hash', null, -1, '/' );
+
+        header( 'Location:' . URL_SITE );
+        exit;
     }
 
     private function include_template( )
@@ -56,14 +67,39 @@ class Controller
 
     protected function set_template( $template )
     {
+        if ( get_module() )
+            $this->template = PATH_MODULE . "view/{$template}.php";
+        else
+            $this->template = PATH_SITE . "view/{$template}.php";
 
-        $this->template = PATH_MODULE . "view/{$template}.php";
+    }
 
+    public function show_error( $class = '' )
+    {
+        if ( $this->error ){
+            printf(
+                '<p class="%s" >%s</p>',
+                $class,
+                $this->error
+            );
+        }
+    }
+
+    public function show_success( $class = '' )
+    {
+        if ( $this->success ) {
+            printf(
+                '<p class="%s" >%s</p>',
+                $class,
+                $this->success
+            );
+        }
     }
 
     public function is_user_logged_in()
     {
         $is_logged = $user = false;
+
         if ( isset( $_SESSION[ 'hash' ] ) && $_SESSION[ 'hash' ] )
             $user = $_SESSION[ 'hash' ];
         else if ( isset( $_COOKIE[ 'hash' ] ) && $_COOKIE[ 'hash' ] )
@@ -89,7 +125,8 @@ class Controller
     public function is_not_logged_redirect()
     {
         if ( !$this->is_user_logged_in() ){
-            header( 'Location:' . URL_SITE . '/login' );
+            header( 'Location:' . URL_SITE  );
+            exit;
         }
     }
 
@@ -114,7 +151,7 @@ class Controller
             '_email'        =>  $values[ '_email' ],
             '_password'     =>  md5( $values[ '_password' ] )
         );
-        $model = new Model_Login();
+        $model = new Model();
         $user = $model->login( $user_data );
 
         if ( !isset( $user->user_id ) || !$user->user_id )
@@ -128,7 +165,29 @@ class Controller
 
 
 
-        $this->success = 'Usuário Logado com sucesso';
+        header( 'Location:' . URL_SITE . 'client/'  );
+        exit;
+    }
+
+    public function welcome_header()
+    {
+
+        $hr = date( 'H' );
+        if ( $hr >= 0 && $hr < 12 )
+            $msg = 'Bom Dia' ;
+        else if( $hr >= 12 && $hr < 18 )
+            $msg = 'Boa Tarde';
+        else
+            $msg = 'Boa Noite';
+
+        if ( $this->is_user_logged_in() ){
+            $msg .= ', ' . $_SESSION['username'];
+            $msg .= sprintf(
+                ' <a href="%s" title="Sair" >Sair</a>',
+                URL_SITE . '?action=logout'
+            );
+        }
+        return $msg;
     }
 
 }

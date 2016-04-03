@@ -1,0 +1,278 @@
+/**
+    Reset Settings
+**/
+
+body,
+div,
+dl,
+dt,
+dd,
+ul,
+ol,
+li,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+pre,
+form,
+fieldset,
+input,
+textarea,
+p,
+blockquote,
+th,
+td {
+    padding: 0;
+    margin: 0;
+    list-style-position: inside;
+}
+
+ul {
+    cursor: default;
+}
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+fieldset,
+img {
+    border: 0;
+}
+
+ol,
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    line-height: 1em;
+}
+
+caption,
+th {
+    text-align: left;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    line-height: 1em;
+    margin: 0;
+    font-weight: 400;
+}
+
+a,
+input[type="submit"] {
+    cursor: pointer;
+    outline: 0;
+}
+input:focus { outline: 0; }
+
+a,
+a:hover,
+a:focus,
+a:active {
+    text-decoration: none;
+    color: inherit;
+}
+
+html,
+body {
+    height: 100%;
+}
+
+img {
+    max-width: 100%;
+    display: block;
+    height: auto;
+}
+
+*,
+*:before,
+*:after {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.repl {
+    display: block;
+    text-indent: -9999px;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+body {
+    font-family: "PT Sans", sans-serif;
+    font-weight: 400;
+    font-size: 14px;
+    color: #414146;
+}
+
+/**
+
+- Wrap Settings
+- Basic Config
+- Collums
+- Media Queries
+
+**/
+
+/** Wrap settings **/
+
+.container {
+    width: 100%;
+    float: left;
+}
+.wrap {
+    width: 1200px;
+    margin: 0 auto;
+    text-align: left;
+}
+
+/** Basic config **/
+
+.col {
+    float: left;
+    padding: 0 15px;
+}
+
+/** Collumns **/
+
+.one {
+    width: 8.33%;
+}
+.two {
+    width: 16.66%;
+}
+.three {
+    width: 25.00%;
+}
+.four {
+    width: 33.33%;
+}
+.five {
+    width: 41.65%;
+}
+.six {
+    width: 50.00%;
+}
+.seven {
+    width: 58.31%;
+}
+.eight {
+    width: 66.66%;
+}
+.nine {
+    width: 75.00%;
+}
+.ten {
+    width: 83.33%;
+}
+.eleven {
+    width: 91.66%;
+}
+.twelve {
+    width: 100%;
+}
+
+/**
+    Header
+**/
+.header{
+    margin: 50px 0;
+}
+.menu-list{
+    margin: 10px auto;
+}
+.menu-list a{
+    background-color: #0073aa;
+    color: white;
+    font-weight: bold;
+    padding: 10px 30px;
+}
+.welcome-header{
+    padding: 80px 15px 0 15px;
+    text-align: right;
+}
+/**
+ Form client, demand and service
+**/
+.form-content{
+    text-align: center;
+    width: 50%;
+    margin: 0 auto;
+}
+.form-content h3{
+    font-size: 24px;
+}
+.form-content label{
+    display:block;
+    text-align: left;
+    font-size: 16px;
+}
+.form-content input[type="text"],
+.form-content input[type="password"],
+.form-content select,
+.form-content textarea{
+    font-size: 1.2rem;
+    margin: 2px 6px 16px 0;
+    padding: 3px;
+    width: 100%;
+}
+.form-content input[type="submit"] {
+    border: 0;
+    float: right;
+    padding: 5px 20px;
+    background-color: #7B68EE;
+    color: #ffffff;
+    font-weight: bold;
+}
+.message-success {
+    border: 1px solid #3f8c00;
+    color: #3f8c00;
+    background-color: #cdfdca;
+}
+.message-error {
+    border: 1px solid #ff0000;
+    color: #ff0000;
+    background-color: #ffd2d2;
+}
+.message-error,
+.message-success{
+    padding: 10px;
+    margin: 10px 0;
+}
+
+/**
+    List content Client, Demand and Service
+**/
+.list-header h2{
+    font-size: 18px;
+    padding: 10px 15px;
+    font-weight: bold;
+}
+.list-header li{
+    font-size: 14px;
+    padding: 8px 15px;
+    font-weight: bold;
+    border-bottom: 2px dashed #dcdcdc;
+}
+.list-content div{
+    padding: 8px 15px;
+    border-bottom: 2px dashed #dcdcdc;
+    height: 60px;
+}
+a{
+    color: #0073AA
+}
+.list-content .btn-delete{
+    color: #AA0000;
+}

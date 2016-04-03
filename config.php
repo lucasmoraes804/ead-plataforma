@@ -1,4 +1,5 @@
 <?php
+date_default_timezone_set( 'America/Sao_Paulo' );
 
 include_once 'core.php';
 include_once 'controller/controller.php';
@@ -13,8 +14,6 @@ define( 'DB_NAME',      'ead_plataforma'    );
 define( 'DB_USER',      'root'              );
 define( 'DB_PASSWORD',  ''                  );
 define( 'DB_PREFIX',    'ead_' );
-
-date_default_timezone_set( 'America/Sao_Paulo' );
 
 if ( !session_id() )
     session_start();

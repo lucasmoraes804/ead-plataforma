@@ -81,9 +81,13 @@ spl_autoload_register( 'autoload' );
      */
     function get_module()
     {
-        $request    = explode( '/' ,  $_SERVER[ 'REQUEST_URI' ]  );
-        $key        = ( in_localhost() ) ? 2 : 1;
-        $module     = isset( $request[ $key ] ) ? $request[ $key ] : '';
+        $module = false;
+        $parser = parse_url( $_SERVER[ 'REQUEST_URI' ] );
+        if ( isset( $parser['path'] ) ) {
+            $request    = explode( '/' ,  $parser['path']  );
+            $key        = ( in_localhost() ) ? 2 : 1;
+            $module     = isset( $request[ $key ] ) ? $request[ $key ] : '';
+        }
 
         return $module;
     }

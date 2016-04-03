@@ -15,6 +15,7 @@ class Controller_Client extends Controller
     public function action_edit()
     {
         $this->is_not_logged_redirect();
+        $this->title_page = 'Editar Cliente';
         $this->set_template( 'insert-client' );
         $client_id = ( isset( $_GET['id'] ) ) ? (int) $_GET['id'] : 0;
         if ( !$client_id )

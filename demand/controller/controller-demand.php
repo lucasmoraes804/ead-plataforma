@@ -24,7 +24,7 @@ class Controller_Demand extends Controller
         $this->set_template( 'insert-demand' );
         $demand_id = ( isset( $_GET['id'] ) ) ? (int) $_GET['id'] : 0;
         if ( !$demand_id )
-            throw new Exception( 'Serviço Inválido' );
+            throw new Exception( 'Pedido Inválido' );
 
         if ( isset( $_POST['insert_demand'] ) )
             $this->edit_demand( $demand_id );
@@ -50,13 +50,13 @@ class Controller_Demand extends Controller
     {
         $service_id = ( isset( $_GET['id'] ) ) ? (int) $_GET['id'] : 0;
         if ( !$service_id )
-            throw new Exception( 'Serviço Inválido' );
+            throw new Exception( 'Pedido Inválido' );
         $model = new Model_Service();
         $delete = $model->delete_service( $service_id );
         if ( !$delete )
-            throw new Exception( 'Não possível excluir o serviço' );
+            throw new Exception( 'Não possível excluir o pedido' );
         else
-            $this->success = 'Serviço excluído com sucesso';
+            $this->success = 'Pedido excluído com sucesso';
 
         $this->default_action();
 
@@ -69,9 +69,9 @@ class Controller_Demand extends Controller
         $model = new Model_Demand();
         $edit = $model->edit_demand( $demand_id, $this->data );
         if ( !$edit )
-            throw new Exception( 'Não foi possível alterar serviço' );
+            throw new Exception( 'Não foi possível alterar pedido' );
         else
-            $this->success = 'Serviço Alterado dom sucesso!';
+            $this->success = 'Pedido Alterado dom sucesso!';
     }
 
     private function insert_demand()

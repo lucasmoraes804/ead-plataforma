@@ -1,11 +1,14 @@
 <?php
 $fields = $this->data;
-echo $this->error;
-echo $this->success;
 ?>
 <section class="container">
-    <div class="wrapper">
-        <h3><?php echo $this->title_page; ?></h3>
+    <div class="wrap">
+        <div class="form-content">
+            <h3><?php echo $this->title_page; ?></h3>
+            <?php
+            $this->show_error( 'message-error' );
+            $this->show_success( 'message-success' );
+            ?>
         <form method="POST">
             <fieldset>
                 <ul>
