@@ -4,7 +4,7 @@ class WS_Demand extends WS_Server
     public function __construct()
     {
         parent::__construct();
-        $this->default_errors_client();
+        $this->default_errors_demand();
 
         $request = array(
             'all-demands'       => 'get_demands',
@@ -22,7 +22,7 @@ class WS_Demand extends WS_Server
             call_user_func( array( $this, $request[ $_GET['request'] ] ) );
     }
 
-    private function default_errors_client()
+    private function default_errors_demand()
     {
         $this->append_error( 'invalid_request',     'Invalid api request' );
         $this->append_error( 'parameter_request',   'parameter token was not found' );
