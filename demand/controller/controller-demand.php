@@ -35,12 +35,13 @@ class Controller_Demand extends Controller
     public function action_insert()
     {
         $this->is_not_logged_redirect();
+        $this->get_client_service();
         $this->title_page = 'Inserir Pedido';
         $this->set_template( 'insert-demand' );
         $this->set_fields();
 
-        if ( isset( $_POST['insert_service'] ) )
-            $this->insert_service();
+        if ( isset( $_POST['insert_demand'] ) )
+            $this->insert_demand();
 
     }
 
@@ -72,16 +73,16 @@ class Controller_Demand extends Controller
             $this->success = 'Serviço Alterado dom sucesso!';
     }
 
-    private function insert_service()
+    private function insert_demand()
     {
         $this->validate_fields();
 
-        $model = new Model_Service();
-        $insert = $model->insert_service( $this->data );
+        $model = new Model_Demand();
+        $insert = $model->insert_demand( $this->data );
         if( !$insert )
-            throw new Exception( 'Não foi possível inserir o serviço' );
+            throw new Exception( 'Não foi possível inserir o pedido' );
         else
-            $this->success = 'Serviço inserido com sucesso!';
+            $this->success = 'Pedido inserido com sucesso!';
     }
 
     private function get_demand( $demand_id )
@@ -105,11 +106,17 @@ class Controller_Demand extends Controller
         if ( $fields['error'] )
             throw new Exception( 'Preencha todos os campos' );
 
-        if ( check_french_date( $values['_start'] ) )
+        if ( !check_french_date( $values['_start'] ) )
             throw new Exception( 'Data de início inválida' );
 
-        if ( check_french_date( $values['_end'] ) )
+        if ( !check_french_date( $values['_finish'] ) )
             throw new Exception( 'Data de termino inválida' );
+
+        $time_start     = strtotime(  date_french2english( $values['_start'] )  );
+        $time_finish    = strtotime(  date_french2english( $values['_finish'] )  );
+
+        if ( $time_start > $time_finish )
+            throw new Exception( 'A data de início não pode ser maior que a data termino...' );
 
     }
 
