@@ -16,6 +16,7 @@ $fields = $this->data;
                         <label for="demand-client">Client</label>
                         <?php if ( count( $this->clients ) ){ ?>
                             <select name="_client_id" id="demand-client" >
+                                <option value="">Selecione</option>
                             <?php foreach( $this->clients as $client ){
                                 printf(
                                     '<option value="%s" %s>%s</option>',
@@ -31,6 +32,7 @@ $fields = $this->data;
                         <label for="demand-service">Serviço</label>
                         <?php if ( count( $this->services ) ){ ?>
                             <select name="_service_id" id="demand-service" >
+                                <option value="">Selecione</option>
                                 <?php foreach( $this->services as $service ){
                                     printf(
                                         '<option value="%s" %s>%s</option>',

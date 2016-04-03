@@ -1,7 +1,3 @@
-<?php
-echo $this->error;
-echo $this->success;
-?>
 <section class="container">
     <div class="wrap ">
         <?php

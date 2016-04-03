@@ -58,6 +58,39 @@ class Controller_Client extends Controller
 
     private function edit_client( $client_id )
     {
+        $this->validate_fields();
+        $model = new Model_Client();
+        $edit = $model->edit_client( $client_id, $this->data );
+        if ( !$edit )
+            throw new Exception( 'Não foi possível alterar usuário' );
+        else
+            $this->success = 'Usuário Alterado dom sucesso!';
+    }
+
+    private function insert_client()
+    {
+        $this->validate_fields();
+
+        $model = new Model_Client();
+        $insert = $model->insert_client( $this->data );
+        if( !$insert ) {
+            throw new Exception( 'Não foi possível inserir o cliente' );
+        } else {
+            $this->success = 'Cliente inserido com sucesso!';
+            $this->set_fields();
+        }
+    }
+
+    private function get_client( $client_id )
+    {
+        $model = new Model_Client();
+        $this->data = $model->get_client( $client_id );
+        if ( !$this->data )
+            throw new Exception( 'Cliente não encontrado' );
+    }
+
+    private function validate_fields()
+    {
         $req = array(
             '_name', '_email', '_phone'
         );
@@ -70,21 +103,6 @@ class Controller_Client extends Controller
             throw new Exception( 'Preencha todos os campos' );
         if ( !is_email( $client->client_email ) )
             throw new Exception( 'E-mail inválido' );
-
-        $model = new Model_Client();
-        $edit = $model->edit_client( $client_id, $client );
-        if ( !$edit )
-            throw new Exception( 'Não foi possível alterar usuário' );
-        else
-            $this->success = 'Usuário Alterado dom sucesso!';
-    }
-
-    private function get_client( $client_id )
-    {
-        $model = new Model_Client();
-        $this->data = $model->get_client( $client_id );
-        if ( !$this->data )
-            throw new Exception( 'Cliente não encontrado' );
     }
 
     private function set_fields( $values = array() )
@@ -96,26 +114,5 @@ class Controller_Client extends Controller
         );
     }
 
-    private function insert_client()
-    {
-        $req = array(
-            '_name', '_email', '_phone'
-        );
-        $fields = sanitize_fields( $_POST, $req );
-        $values = $fields['values'];
 
-        $client = $this->set_fields( $values );
-
-        if ( $fields['error'] )
-            throw new Exception( 'Preencha todos os campos' );
-        if ( !is_email( $client->client_email ) )
-            throw new Exception( 'E-mail inválido' );
-
-        $model = new Model_Client();
-        $insert = $model->insert_client( $client );
-        if( !$insert )
-            throw new Exception( 'Não foi possível inserir o cliente' );
-        else
-            $this->success = 'Cliente inserido com sucesso!';
-    }
 }

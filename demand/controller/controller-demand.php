@@ -80,10 +80,12 @@ class Controller_Demand extends Controller
 
         $model = new Model_Demand();
         $insert = $model->insert_demand( $this->data );
-        if( !$insert )
+        if( !$insert ) {
             throw new Exception( 'Não foi possível inserir o pedido' );
-        else
+        } else {
             $this->success = 'Pedido inserido com sucesso!';
+            $this->set_fields();
+        }
     }
 
     private function get_demand( $demand_id )

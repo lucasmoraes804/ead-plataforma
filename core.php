@@ -104,7 +104,7 @@ spl_autoload_register( 'autoload' );
     {
         $error = false;
         foreach( $data as $key => $v ) {
-            $values[ $key ] = htmlentities( trim( $v ), null, 'ISO-8859-1' );
+            $values[ $key ] = htmlentities( trim( $v ), null, 'UTF-8' );
             if ( !$values[ $key ] && ( in_array( $key, $requires ) ) ) {
                 $error = true;
             }

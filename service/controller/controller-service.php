@@ -74,10 +74,12 @@ class Controller_Service extends Controller
 
         $model = new Model_Service();
         $insert = $model->insert_service( $this->data );
-        if( !$insert )
+        if( !$insert ) {
             throw new Exception( 'Não foi possível inserir o serviço' );
-        else
+        } else {
             $this->success = 'Serviço inserido com sucesso!';
+            $this->set_fields();
+        }
     }
 
     private function get_service( $service_id )
