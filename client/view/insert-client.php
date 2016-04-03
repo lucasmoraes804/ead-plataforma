@@ -19,7 +19,7 @@ echo $this->success;
                     </li>
                     <li>
                         <label for="client-phone">Telefone</label>
-                        <input id="client-phone" class="client-phone" type="text" name="_phone" value="<?php echo $fields->client_phone; ?>"/>
+                        <input id="client-phone" class="mask-phone" type="text" name="_phone" value="<?php echo $fields->client_phone; ?>"/>
                     </li>
                     <li>
                         <input class="button" type="submit" value="Salvar" name="insert_client" />

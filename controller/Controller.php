@@ -47,12 +47,16 @@ class Controller
 
     private function include_template( )
     {
-        if ( file_exists( $this->template ) )
+        if ( file_exists( $this->template ) ){
+            include_once PATH_SITE . 'includes/header.php';
             include_once $this->template;
+            include_once PATH_SITE . 'includes/footer.php';
+        }
     }
 
     protected function set_template( $template )
     {
+
         $this->template = PATH_MODULE . "view/{$template}.php";
 
     }

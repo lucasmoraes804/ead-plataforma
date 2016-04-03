@@ -41,11 +41,11 @@ echo $this->success;
                     </li>
                     <li>
                         <label for="demand-start">Data de Início</label>
-                        <input type="text" id="demand-start" name="_start" value="<?php echo $fields->demand_start; ?>" >
+                        <input type="text" id="demand-start" name="_start" class="mask-date" value="<?php echo $fields->demand_start; ?>" >
                     </li>
                     <li>
                         <label for="demand-finish">Data de termino</label>
-                        <input type="text" id="demand-finish" name="_finish" value="<?php echo $fields->demand_finish; ?>" >
+                        <input type="text" id="demand-finish" name="_finish" class="mask-date" value="<?php echo $fields->demand_finish; ?>" >
                     </li>
                     <li>
                         <input class="button" type="submit" value="Salvar" name="insert_demand" />

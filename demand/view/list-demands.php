@@ -18,7 +18,11 @@ echo $this->success;
             <?php
             if ( count( $this->data ) ) {
                 foreach( $this->data as $k => $v ) {  ?>
-                    <li><span><?php echo $v->client_name; ?></span><a href="?action=edit&id=<?php echo $v->demand_id; ?>"> editar </a><a class="btn-delete" href="?action=delete&id=<?php echo $v->demand_id; ?>"> excluir </a></li>
+                    <li>
+                        <span><?php echo $v->client_name; ?></span>
+                        <a href="?action=edit&id=<?php echo $v->demand_id; ?>"> editar </a>
+                        <a class="btn-delete" href="?action=delete&id=<?php echo $v->demand_id; ?>"> excluir </a>
+                    </li>
                     <li><span><?php echo $v->service_name; ?></span></li>
                     <li><span><?php echo $v->demand_start; ?></span></li>
                     <li><span><?php echo $v->demand_finish; ?></span></li>
