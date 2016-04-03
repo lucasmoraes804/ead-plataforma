@@ -2,18 +2,15 @@
 class WS_Server
 {
     protected $data;
-
+    private $errors;
     public function __construct()
     {
         //Token example: NndseWo5ZGg0dnplMGN1MWJwNThvM3NuN2kxNjE2Zmc=
+        $this->default_errors();
         if ( !isset( $_GET['token'] ) )
-            $this->data['error'] = $this->get_error( 'parameter_token' );
+            $this->set_error( 'parameter_token' );
         else if ( !$this->check_token( $_GET['token'] ) )
-            $this->data['error'] = $this->get_error( 'invalid_token' );
-
-        if ( isset( $this->data['error'] ) )
-            $this->response();
-
+            $this->set_error( 'invalid_token' );
 
     }
 
@@ -46,23 +43,43 @@ class WS_Server
         exit;
     }
 
-    protected function get_error( $code )
+    protected function set_data( $data )
     {
-        $error = array();
-        $errors = array(
+        $this->data = $data;
+    }
+
+    private function default_errors()
+    {
+        $this->errors = array(
             'invalid_token'     => 'Invalid token',
             'parameter_token'   => 'parameter token was not found'
         );
+    }
 
-        if ( isset( $errors[ $code ] ) ){
+    protected function append_error( $code, $message )
+    {
+        $this->errors[ $code ] = $message;
+    }
+
+    private function get_error( $code )
+    {
+        $error = array();
+
+        if ( isset( $this->errors[ $code ] ) ){
             $error['code']      = $code;
-            $error['message']   = $errors[$code];
+            $error['message']   = $this->errors[$code];
         } else {
             $error['code']      = 'unknown';
             $error['message']   = 'Unknown Error';
         }
 
         return $error;
+    }
+
+    protected function set_error( $code )
+    {
+        $this->data['error'] = $this->get_error( $code );
+        $this->response();
     }
 
     /**
