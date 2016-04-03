@@ -12,6 +12,7 @@ echo $this->success;
             <li><span>Data de Início</span></li>
             <li><span>Data de Fim</span></li>
             <li><span>Data de Registro</span></li>
+            <li><span>Expria em</span></li>
         </ul>
         <ul class="container list">
             <?php
@@ -22,8 +23,9 @@ echo $this->success;
                     <li><span><?php echo $v->demand_start; ?></span></li>
                     <li><span><?php echo $v->demand_finish; ?></span></li>
                     <li><span><?php echo $v->register_date; ?></span></li>
+                    <li><?php echo $this->diff_date( $v->demand_finish ); ?></li>
                 <?php } } else { ?>
-                <span>Nenhum cliente cadastrado ainda!</span>
+                <p>Nenhum pedido cadastrado...</p>
             <?php } ?>
         </ul>
     </div>

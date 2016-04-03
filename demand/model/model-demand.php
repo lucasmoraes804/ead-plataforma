@@ -1,16 +1,22 @@
 <?php
 class Model_Demand extends Connect
 {
-    public function get_demands()
+    public function get_demands( $client_id = false )
     {
         $query = "SELECT demand_id, c.client_id, c.client_name, s.service_id, s.service_name, DATE_FORMAT( demand_start, '%d/%m/%Y' ) demand_start, ".
                  "DATE_FORMAT( demand_finish, '%d/%m/%Y' ) demand_finish, DATE_FORMAT( d.register_date, '%d/%m/%Y %h:%i' ) register_date ".
                  "FROM {$this->prefix}demands d ".
                  "INNER JOIN {$this->prefix}clients c USING( client_id ) " .
-                 "INNER JOIN {$this->prefix}services s USING( service_id ) ".
-                 "ORDER BY d.register_date DESC ";
+                 "INNER JOIN {$this->prefix}services s USING( service_id ) ";
+
+        if ( $client_id )
+            $query .= "WHERE client_id = :client_id ";
+
+        $query .=   "ORDER BY d.register_date DESC ";
         try{
             $stmt = $this->db->prepare( $query );
+            if ( $client_id )
+                $stmt->bindParam( ':client_id', $client_id, PDO::PARAM_INT );
             $stmt->execute();
             $result = $stmt->fetchAll( PDO::FETCH_OBJ );
             return $result;

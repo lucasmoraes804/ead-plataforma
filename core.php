@@ -70,7 +70,7 @@ spl_autoload_register( 'autoload' );
             $home_url = 'http://' . $_SERVER[ 'SERVER_NAME' ];
         }
 
-        return $home_url;
+        return $home_url . '/';
     }
 
     /**

@@ -9,8 +9,9 @@ class Controller_Demand extends Controller
     {
         $this->is_not_logged_redirect();
         $this->set_template( 'list-demands' );
+        $client_id = ( isset( $_GET['client'] ) ) ? (int)$_GET['client'] : false;
         $model = new Model_Demand();
-        $this->data = $model->get_demands();
+        $this->data = $model->get_demands( $client_id );
         if ( !$this->data )
             throw new Exception( 'Não há nenhum pedido cadastrado' );
     }
@@ -138,6 +139,43 @@ class Controller_Demand extends Controller
         $this->clients = $model_client->get_clients();
         $model_service = new Model_Service();
         $this->services = $model_service->get_services();
+    }
+
+    public function diff_date( $date_finish )
+    {
+        $finish = date_french2english( $date_finish );
+        $finish_time = strtotime( $finish );
+
+        $current_time = mktime( 0, 0, 0, date( 'm' ), date( 'd' ), date( 'Y' ) );
+
+        $msg = '';
+        if ( $finish_time > $current_time ) {
+            $diff = abs( $finish_time - $current_time  );
+
+            $years = floor( $diff / (365*60*60*24 ) );
+            $months = floor( ( $diff - $years * 365*60*60*24) / ( 30*60*60*24 ) );
+            $days = floor( ( $diff - $years * 365*60*60*24 - $months*30*60*60*24 ) / ( 60*60*24 ) );
+
+            if ( $years )
+                $msg .= ( $years > 1 ) ? $years . ' anos' : $years .' ano';
+
+            if ( $months ) {
+                $msg .= ', ' . $months;
+                $msg .= ( $months > 1 ) ? ' meses' : ' mês';
+            }
+
+            if ( $days )
+                $msg .= ' e ' . $days . ' dias ';
+
+
+
+
+
+        } else {
+            $msg = 'O serviço já expirou';
+        }
+
+        return $msg;
     }
 
 }
